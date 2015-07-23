@@ -1,0 +1,51 @@
+public class Employee{
+	private String Lastname;
+	private String Firstname;
+	private int age;
+	private double hrsalary;
+	
+	public Employee(){}
+	
+	public Employee ( String nm, int newage, double newsal){
+		Lastname = nm;
+		Firstname = nm;
+		age = newage;
+		hrsalary = newsal;
+	}
+	public void setLastname(String nm){
+		Lastname = nm;
+		}
+	public void setFirstname(String nm){
+		Firstname = nm;
+	}
+	public void setAge(int newage){
+		age = newage;
+	}
+	public void setSal(double newsal){
+		hrsalary = newsal;
+	}
+	public String getLastName(){
+		return Lastname;
+	}
+	public String getFirstName(){
+		return Firstname;
+	}
+	public double getSal(){
+		return hrsalary;
+	}
+	public int getAge(){
+		return age;
+	}
+	public String toString(){
+		return "Last Name: " + Lastname + "\nFirst Name: " + Firstname + "\nAge: " + age + "\nHour Salary: " + hrsalary;
+	}
+	public double weekPay(double hrs){
+		double weeklySalary;
+		if(hrs<=40)
+		weeklySalary = hrsalary * hrs;
+		else
+		weeklySalary = (40*hrsalary) +((hrs - 40) * (1.5));
+		
+		return weeklySalary;
+	}	
+		}
