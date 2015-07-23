@@ -1,0 +1,111 @@
+import javax.swing.JOptionPane;
+
+public class MainEmployeeApplication {
+	private static final String[] ACTIONS = {"Add", "Check if an employee is present","Display info on highest paid", "Print out info on youngest","Print out employees of a given age","Print all employees","Print how many hours an employee makes a week", "Exit"};
+	private static final int ADD = 0, CHECK = 1, SHOW_HIGH_PAID = 2, SHOW_YOUNGEST = 3, SHOW_EMPLOYEES_OF_AGE = 4, SHOW_ALL = 5, SHOW_EMPLOYEE_HOURS = 6, EXIT = 7;
+	//assigns every option to a number that can be used by the switch method
+	
+	public MainEmployeeApplication(){
+		EmployList list1;
+		list1 = new EmployList();
+		int c;
+		String Lastname = null;
+		int age;
+		while(true){							//while method that loops until the user inputs the correct 						
+			c = getSelection("What would you like to do?", ACTIONS);
+			if(c == EXIT)
+				break;
+			switch(c){
+			case ADD:							//Adds the employee by taking their last name, salary and age
+				String name = getString("Enter the employee's name: ");
+				age = getInt("How old is "+name+"?");
+				double salary = getDouble("How much does "+name+" make?");
+				Employee newbie= new Employee(name,age,salary);
+				list1.add(newbie);
+				break;
+			case CHECK:       											 //checks to see if the employee with the lastname the user inputs exists within the array
+				Lastname = getString("Enter the employee's last name: ");
+				JOptionPane.showMessageDialog(null, Lastname + (list1.isThere(Lastname) ? " does" : " doesn't") + " exist.");
+				break;
+			case SHOW_HIGH_PAID:     									 //checks the array and finds the employee with the highest salary
+				JOptionPane.showMessageDialog(null, "Highest paid employee: " + list1.highestPaid());
+				break;
+			case SHOW_YOUNGEST:      									//checks the array to find the youngest employee
+				JOptionPane.showMessageDialog(null, "Youngest employee: " + list1.youngest());
+				break;
+			case SHOW_EMPLOYEES_OF_AGE:     							//checks and counts how many employees exist with the age the user input
+				age = getInt("Enter the age of the employees to count: ");
+				JOptionPane.showMessageDialog(null, "There are " + list1.howmany(age) + " employees of age " + age);
+				break;
+			case SHOW_ALL:   											//prints out all the employee objects 
+				displayMessage("Printing info for all employees: ");
+				JOptionPane.showMessageDialog(null,list1.toString());
+				break;
+			case SHOW_EMPLOYEE_HOURS:   								//calculates the pay of the employee 
+				Lastname = getString("Enter the employee's last name: ");
+				while(!list1.isThere(Lastname)){
+					Lastname = getString("Enter the employee's last name: ");
+				}
+				Employee emp = list1.getEmployee(Lastname);
+				double amount = emp.weekPay(getDouble("How many hours did "+emp.getFirstName()+" work?"));
+				JOptionPane.showMessageDialog(null, emp.getFirstName() + " made " + "$" + amount);
+				break;
+			}
+		}
+	}
+	
+	public String getString(String prompt) { //prompts user for input, notifies user if input is incompatible
+		String input;
+		if(prompt == null)
+			prompt = "";
+		input = JOptionPane.showInputDialog(prompt);
+		if(input==null){
+			JOptionPane.showMessageDialog(null, "Please enter something");
+			return getString(prompt);
+		}else if(input.length() < 1){
+			JOptionPane.showMessageDialog(null, "Please enter something");
+			return getString(prompt);
+		}
+		return input;
+	}
+	public int getInt(String prompt) { //prompts user for int, notifies user if invalid int is entered
+		int i;
+		try{
+			i = Integer.parseInt(getString(prompt));
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Please enter an integer number!");
+			return getInt(prompt);
+		}
+		return i;
+	}
+	public double getDouble(String prompt) { 
+		double d;
+		try{
+			d = Double.parseDouble(getString(prompt));
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Please enter a number!");
+			return getDouble(prompt);
+		}
+		return d;
+	}
+	public void displayMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
+	
+	public int getSelection(String prompt, String[] choices) {  //checks to make sure the user enters a number that is listed 
+		String p = prompt;
+		for(int i = 0; i < choices.length; i++){
+			p += "\n" + i + " " + choices[i];
+		}
+		int choice = getInt(p);
+		if(choice < 0 || choice >= choices.length ){
+			JOptionPane.showMessageDialog(null, "Invalid choice! Please choose from the available options.");
+			return getSelection(prompt, choices);
+		}
+		return choice;
+	}
+	
+	public static void main(String[] args) {
+		new MainEmployeeApplication();
+	}
+}
