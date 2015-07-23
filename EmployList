@@ -1,0 +1,77 @@
+public class EmployList{
+	private Employee[]list;
+	private int numEmps=0;  //counter of how many employees 
+		
+public EmployList(){   //creates a array of type Employee that can store 50 objects
+	list=new Employee[50];
+}
+public void add(Employee obj){  //adds an employee and increases the counter 
+	list[numEmps]=obj;
+     numEmps++;	
+}
+public boolean isThere(String Lastname){  //checks to see if employee is present 
+	String last="";
+	for(int x=0;x<numEmps;x++){
+		last=list[x].getLastName();
+		if(Lastname.equalsIgnoreCase(last))
+			return true;	
+	}
+	return false;
+}
+public Employee highestPaid(){   //goes through the array and comapares each employee's pay 
+	double highest=0.00;
+	int count=0;
+	Employee high=new Employee();
+		for(int x=0;x<numEmps;x++){
+			if(highest<list[x].getSal()){
+				 highest=list[x].getSal();
+				 high=list[x];
+			}	 
+			}
+		for(int x=0;x<numEmps;x++){
+			if(highest==list[x].getSal())
+			high=list[x];			
+	}
+	return high;
+}
+
+	public Employee youngest(){   //compares employee's age, using the first employee as the youngest for comparison
+		int youngest=list[0].getAge();
+		Employee young=new Employee();
+		for(int x=0;x<numEmps;x++){
+			if(youngest<=list[x].getAge())
+				youngest=youngest;
+			else
+				youngest=list[x].getAge();
+		}
+		for(int y=0;y<numEmps;y++){
+			if(youngest==list[y].getAge())
+			   young=list[y];		
+	}
+	return young;	
+  }
+  public int howmany(int newage){   //Compares how many employees there are of age newage
+  	int counter=0;
+  	String result="";
+  	for(int x=0;x<numEmps;x++){
+  		if(newage==list[x].getAge())
+  			counter++;
+  	}
+  	return counter;
+  }
+  public Employee getEmployee(String LastName){  //compares the user input LastName to every employee's object LastName
+  	Employee worker=new Employee();
+  	for(int x=0;x<numEmps;x++){
+  		if(LastName.equals(list[x].getLastName()))
+  			worker=list[x];
+  }
+  return worker;
+ }
+  	public String toString(){
+  		String all="";
+  		for(int x=0;x<numEmps;x++){
+  			all=all+list[x]+"\n";
+  		}
+  		return all;
+  	}
+  }
